@@ -117,8 +117,10 @@ Set `show: false` to hide the strip completely.
 | `favicon.png` | Browser tab icon |
 | `site.webmanifest` | Lets customers add the site to their phone home screen |
 | `robots.txt`, `sitemap.xml` | For Google — see below |
-| `HOSTING.md` | How to put the site online free |
-| `set-domain.py` | Sets your web address in all 7 places at once |
+| `HOSTING.md` | Free hosting options |
+| `DOMAIN-SETUP.md` | Buying a domain + the exact DNS records |
+| `go-live.py` | Switches the site to your domain in one command |
+| `set-domain.py` | Just changes the URL, without the CNAME file |
 | `GOOGLE-BUSINESS-PROFILE.md` | Copy-paste pack for your Google listing |
 
 ### Not used any more

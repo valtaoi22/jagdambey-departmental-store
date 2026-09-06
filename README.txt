@@ -12,8 +12,15 @@ Please check them before the site goes live.
 
 The site works in English, हिंदी and ਪੰਜਾਬੀ (buttons in the header).
 
-TO PUT IT ONLINE (FREE):
-  Open  HOSTING.md  — drag-and-drop hosting in about 2 minutes.
+ALREADY ONLINE AT:
+  https://valtaoi22.github.io/jagdambey-departmental-store/
+
+TO USE YOUR OWN DOMAIN NAME:
+  Open  DOMAIN-SETUP.md  — buying it, DNS records, and going live.
+  Then run:   python3 go-live.py yourdomain.com
+
+OTHER FREE HOSTING OPTIONS:
+  Open  HOSTING.md
 
 FOR YOUR GOOGLE LISTING:
   Open  GOOGLE-BUSINESS-PROFILE.md  — ready-to-paste description,
