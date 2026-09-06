@@ -2,17 +2,20 @@
 """
 Switch the site over to your own domain, in one command.
 
-Run this AFTER you have bought the domain and added the DNS records
-(see DOMAIN-SETUP.md). It will:
+Run this AFTER you have bought the domain (see DOMAIN-SETUP.md). It will:
 
-  1. write the CNAME file GitHub Pages needs
-  2. point every URL in the site at your domain (7 places, 4 files)
+  1. point every URL in the site at your domain (7 places, 4 files)
+  2. write the CNAME file, if you are hosting on GitHub Pages
   3. make a git commit
 
 It does NOT push — it prints the command so you stay in control.
 
 USAGE:
-    python3 go-live.py jagdambeystore.com
+    python3 go-live.py jagdambeystore.com                  # Cloudflare Pages (default)
+    python3 go-live.py jagdambeystore.com --github-pages   # GitHub Pages
+
+The CNAME file is a GitHub Pages thing. Cloudflare Pages sets its own custom
+domain in the dashboard, so it does not want one.
 """
 import re, subprocess, sys, pathlib
 
@@ -26,12 +29,15 @@ def current_url():
 
 
 def main():
-    if len(sys.argv) != 2:
+    args = [a for a in sys.argv[1:] if not a.startswith("-")]
+    flags = {a for a in sys.argv[1:] if a.startswith("-")}
+    if len(args) != 1 or flags - {"--github-pages"}:
         print(__doc__)
         return 1
+    github_pages = "--github-pages" in flags
 
     # accept jagdambeystore.com, www.jagdambeystore.com or https://jagdambeystore.com/
-    raw = sys.argv[1].strip()
+    raw = args[0].strip()
     bare = re.sub(r"^https?://", "", raw).strip("/").split("/")[0].lower()
 
     if not re.fullmatch(r"[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9-]+)+", bare):
@@ -46,10 +52,16 @@ def main():
         print("Run this inside the website folder. Missing:", ", ".join(missing))
         return 1
 
-    # 1. CNAME — GitHub Pages reads this file to learn the custom domain.
-    #    It must contain the bare domain only: no https://, no trailing slash.
-    pathlib.Path("CNAME").write_text(bare + "\n", encoding="utf-8")
-    print(f"  CNAME                        -> {bare}")
+    # 1. CNAME — only GitHub Pages uses this file. It must hold the bare
+    #    domain: no https://, no trailing slash. Cloudflare Pages ignores it,
+    #    and leaving a stale one behind would confuse a later GitHub deploy.
+    cn = pathlib.Path("CNAME")
+    if github_pages:
+        cn.write_text(bare + "\n", encoding="utf-8")
+        print(f"  CNAME                        -> {bare}")
+    elif cn.exists():
+        cn.unlink()
+        print("  CNAME                        -> removed (not used by Cloudflare Pages)")
 
     # 2. rewrite every absolute URL
     old, new = current_url(), "https://" + bare
@@ -68,19 +80,26 @@ def main():
 
     # 3. commit
     subprocess.run(["git", "add", "-A"], check=True)
+    host = "GitHub Pages" if github_pages else "Cloudflare Pages"
     msg = (f"Switch the site to {bare}\n\n"
-           f"Adds the CNAME file GitHub Pages needs and repoints the canonical\n"
-           f"tag, share-preview images, og:url, robots.txt, sitemap.xml and\n"
-           f"store-data.js from {old or 'the previous address'} to {new}.\n")
+           f"Repoints the canonical tag, share-preview images, og:url,\n"
+           f"robots.txt, sitemap.xml and store-data.js from\n"
+           f"{old or 'the previous address'} to {new}.\n\n"
+           f"Host: {host}.\n")
     r = subprocess.run(["git", "commit", "-q", "-m", msg])
     if r.returncode != 0:
         print("\n  (nothing new to commit)")
 
-    print(f"\nDone — {total} URLs updated, CNAME written.\n")
+    print(f"\nDone — {total} URLs updated.\n")
     print("Next:")
     print("  1. git push")
-    print(f"  2. GitHub → repo → Settings → Pages → Custom domain: {bare} → Save")
-    print("  3. Wait for the DNS check to go green, then tick 'Enforce HTTPS'")
+    if github_pages:
+        print(f"  2. GitHub → Settings → Pages → Custom domain: {bare} → Save")
+        print("  3. Wait for the DNS check to go green, then tick 'Enforce HTTPS'")
+    else:
+        print("  2. Cloudflare → Workers & Pages → your project → Custom domains")
+        print(f"     Add '{bare}' and 'www.{bare}' — Cloudflare writes the DNS itself")
+        print("  3. Wait for both to show 'Active'")
     print(f"  4. Search Console: submit https://{bare}/sitemap.xml")
     return 0
 

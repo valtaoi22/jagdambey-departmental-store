@@ -11,10 +11,23 @@ Cost: **around ₹900–1,200 a year.** Hosting stays free.
 |---|---|---|
 | **Domain** | `jagdambeystore.com` | Checked — available. Says itself out loud: *"jagdambey store dot com"* |
 | **Registrar** | Cloudflare, or Hostinger/BigRock if you want to pay by UPI | See Step 1 |
-| **Host** | **Stay on GitHub Pages** | Already working. Free. No migration needed. |
+| **Host** | **Cloudflare Pages** | Your domain is already on Cloudflare — it writes the DNS for you |
 
-**Do not move hosts.** Your site is already live and working on GitHub Pages.
-A domain just points *at* it. Changing both at once means two things to debug.
+### Why Cloudflare Pages rather than GitHub Pages
+
+Once the domain sits on Cloudflare's nameservers, Cloudflare Pages is the
+simpler half of the job:
+
+| | Cloudflare Pages | GitHub Pages |
+|---|---|---|
+| DNS setup | **Automatic** — you add the domain, it writes the records | 4 A records + 1 CNAME, by hand |
+| Orange-cloud proxy | Works normally | Blocks certificate issuing — must be grey |
+| Bandwidth | Unlimited | 100 GB/month |
+| Speed in India | Cloudflare's Indian edge | Fastly/US-routed |
+| Deploys | Automatic on every `git push` | Automatic on every `git push` |
+
+Both are free and both serve the same repo. Cloudflare wins here purely because
+**it removes the DNS step**, which is where things go wrong by hand.
 
 ---
 
@@ -52,7 +65,51 @@ A domain just points *at* it. Changing both at once means two things to debug.
 
 ---
 
-## Step 2 — Add the DNS records
+## Step 2 — Deploy on Cloudflare Pages *(recommended)*
+
+**First, delete every DNS record you added by hand.** Cloudflare Pages writes its
+own, and leftover records will fight it. In **DNS → Records**, delete anything
+pointing at GitHub.
+
+Then:
+
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
+   **Connect to Git**
+2. Authorise GitHub, choose **`jagdambey-departmental-store`**
+3. Build settings — this is a plain HTML site, so leave it empty:
+
+   | Field | Value |
+   |---|---|
+   | Framework preset | **None** |
+   | Build command | *(leave blank)* |
+   | Build output directory | `/` |
+
+4. **Save and Deploy.** You get `jagdambey-departmental-store.pages.dev`
+5. Project → **Custom domains** → **Set up a domain** → `jagdambeystore.com`
+   → then repeat for `www.jagdambeystore.com`
+
+Cloudflare creates the DNS records itself and issues the certificate. Wait for
+both to show **Active**.
+
+6. Point the site at the domain:
+
+```bash
+python3 go-live.py jagdambeystore.com
+git push
+```
+
+Every future `git push` redeploys automatically.
+
+---
+
+## Alternative — staying on GitHub Pages
+
+Only if you prefer it. You must add the records by hand **and set every one to
+DNS only (grey cloud)** — an orange cloud stops GitHub issuing its certificate.
+
+Run `python3 go-live.py jagdambeystore.com --github-pages` for this route.
+
+### Add the DNS records
 
 In your registrar's **DNS** section, add these **exactly**.
 (Verified against GitHub's own API — these are current.)
@@ -84,9 +141,14 @@ In your registrar's **DNS** section, add these **exactly**.
 > Note the CNAME value has **no `https://`, no path and a trailing dot is fine**.
 > It is just `valtaoi22.github.io`.
 
-**If you used Cloudflare:** set each record's proxy status to **DNS only**
-(grey cloud, not orange). GitHub will then issue its own HTTPS certificate.
-Orange-cloud proxying also works but needs SSL mode set to "Full" — grey is simpler.
+> ⚠️ **The `Name` field is the hostname, not a label.**
+> For the apex records the Name must be **`@`** (Cloudflare shows this as
+> `jagdambeystore.com`). Typing `github_1`, `github_2` … creates
+> `github_1.jagdambeystore.com` — subdomains that do nothing, and the domain
+> itself resolves to nothing.
+
+**Set every record to DNS only (grey cloud).** With the orange cloud on,
+GitHub cannot verify the domain and the certificate never issues.
 
 **Delete** any parking-page A record the registrar added automatically.
 
@@ -166,6 +228,8 @@ Your old address `valtaoi22.github.io/jagdambey-departmental-store` will now
 | Site loads but no padlock | Certificate not issued yet | Wait, then tick **Enforce HTTPS** |
 | "Enforce HTTPS" greyed out | Same — cert still pending | Wait up to 24 hrs |
 | Registrar's parking page shows | Old A record still there | Delete it, keep only the four above |
+| Apex doesn't resolve at all | Records named `github_1` etc. instead of `@` | The Name field is the hostname — it must be `@` |
+| Certificate never issues (GitHub) | Orange cloud is on | Switch every record to DNS only (grey) |
 | `www` doesn't work | CNAME missing or wrong | Must be `www` → `valtaoi22.github.io` |
 | Everything broke | — | Delete the `CNAME` file, push. Back to the github.io URL. |
 
