@@ -40,9 +40,8 @@ const STORE = {
 
   /* Exact shop location. Right-click your shop in Google Maps → copy the
      numbers that look like 29.6912, 75.2384 and paste them here.          */
-  lat:         "",                     // ⚠️ STILL NEEDED — right-click the shop in Google Maps, copy the first number
-                                       //    (Sardulgarh town centre is about 29.6934, 75.2375 — yours will be close)
-  lng:         "",                     // ⚠️ CONFIRM
+  lat:         "29.693345",            // exact shop pin, from Google Maps
+  lng:         "75.236433",
   mapsQuery:   "Jagdambey Departmental Store, Sardulgarh, Punjab",
   mapsLink:    "https://share.google/uCz81jpyHikhyfAZM",   // the shop's Google listing
   googleKgmid: "/g/11zxg77rp1",        // Google's own id for this business — links site to listing

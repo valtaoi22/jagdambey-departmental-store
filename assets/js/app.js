@@ -449,8 +449,12 @@
     /* map */
     var map = $("#mapFrame");
     if (map) {
-      var q = (STORE.lat && STORE.lng) ? (STORE.lat + "," + STORE.lng) : STORE.mapsQuery;
-      map.src = "https://www.google.com/maps?q=" + encodeURIComponent(q) + "&z=16&output=embed";
+      /* q= finds the business so the card shows its name, hours and reviews;
+         ll= centres the map on the exact pin when we have the coordinates. */
+      var src = "https://www.google.com/maps?q=" + encodeURIComponent(STORE.mapsQuery);
+      if (STORE.lat && STORE.lng) src += "&ll=" + STORE.lat + "," + STORE.lng + "&z=17";
+      else src += "&z=16";
+      map.src = src + "&output=embed";
     }
     $$("[data-maps-link]").forEach(function (a) {
       a.href = STORE.mapsLink ||
