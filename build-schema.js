@@ -76,12 +76,35 @@ if (STORE.lat && STORE.lng) {
   data.hasMap = "https://www.google.com/maps/search/?api=1&query=" + STORE.lat + "," + STORE.lng;
 }
 
-const block = START + "\n" +
-  '<script type="application/ld+json">\n' +
-  JSON.stringify(data, null, 2) + "\n" +
-  "</script>\n" + END;
-
 let html = fs.readFileSync("index.html", "utf8");
+
+// --- FAQ data, scraped out of the FAQ section so the two can never disagree ---
+// Google can show these as expandable questions directly in the search result.
+const faqs = [];
+const section = (html.match(/<section class="faq"[\s\S]*?<\/section>/) || [""])[0];
+const strip = t => t.replace(/<[^>]+>/g, "")
+                    .replace(/&amp;/g, "&").replace(/&quot;/g, '"')
+                    .replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+                    .replace(/\s+/g, " ").trim();
+const re = /<summary[^>]*data-en="([^"]*)"[\s\S]*?<p[^>]*data-en="([^"]*)"/g;
+let m;
+while ((m = re.exec(section))) {
+  faqs.push({
+    "@type": "Question",
+    name: strip(m[1]),
+    acceptedAnswer: { "@type": "Answer", text: strip(m[2]) }
+  });
+}
+
+const blocks = [JSON.stringify(data, null, 2)];
+if (faqs.length) {
+  blocks.push(JSON.stringify(
+    { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs }, null, 2));
+}
+
+const block = START + "\n" +
+  blocks.map(b => '<script type="application/ld+json">\n' + b + "\n</script>").join("\n") +
+  "\n" + END;
 
 if (html.includes(START) && html.includes(END)) {
   html = html.replace(new RegExp(START + "[\\s\\S]*?" + END), block);
@@ -96,6 +119,6 @@ if (!STORE.postalCode) warn.push("postalCode");
 if (!STORE.lat || !STORE.lng) warn.push("lat/lng (exact map pin)");
 
 console.log(`Business data written into index.html`);
-console.log(`  ${hours.length} open days, ${data.makesOffer.length} product categories`);
+console.log(`  ${hours.length} open days, ${data.makesOffer.length} product categories, ${faqs.length} FAQ entries`);
 console.log(`  ${JSON.stringify(data).length} bytes of structured data`);
 if (warn.length) console.log(`  still missing (Google would use these): ${warn.join(", ")}`);

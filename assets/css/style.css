@@ -123,7 +123,12 @@ section.tight{padding:52px 0}
   padding:54px 46px;display:flex;flex-direction:column;justify-content:center;
   background:radial-gradient(circle at 85% 12%,#fff3ca 0,transparent 42%),var(--paper);
 }
-.hero h1{font-family:var(--serif);font-size:clamp(36px,4.6vw,60px);line-height:1.04;color:var(--green);margin:14px 0 16px}
+.hero h1{font-family:var(--serif);font-size:clamp(36px,4.6vw,60px);line-height:1.04;color:var(--green);margin:10px 0 16px}
+.hero h1 .h1-name{
+  display:block;font-family:var(--sans);font-size:13px;font-weight:800;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--brown);
+  margin-bottom:12px;line-height:1.4;
+}
 .hero h1 em{font-style:normal;color:var(--brown)}
 .hero-lead{color:var(--muted);font-size:16.5px;max-width:470px;margin:0}
 .hero-btns{display:flex;gap:11px;flex-wrap:wrap;margin-top:26px}
@@ -297,6 +302,29 @@ section.tight{padding:52px 0}
 .lightbox[open],.lightbox.show{display:grid}
 .lightbox img{max-width:min(1000px,94vw);max-height:88vh;object-fit:contain;border-radius:14px}
 .lightbox .x{position:absolute;top:18px;right:20px;color:#fff;font-size:30px;line-height:1;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center}
+
+/* ---------- FAQ ---------- */
+.faq{background:var(--sand)}
+.faq-list{max-width:840px;margin-inline:auto;display:grid;gap:10px}
+.faq-list details{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:border-color .18s}
+.faq-list details[open]{border-color:var(--gold);box-shadow:var(--shadow-sm)}
+.faq-list summary{
+  list-style:none;cursor:pointer;padding:17px 50px 17px 20px;position:relative;
+  font-weight:700;font-size:15.5px;color:var(--green);line-height:1.45;
+}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{
+  content:"";position:absolute;right:20px;top:50%;width:9px;height:9px;
+  border-right:2.2px solid var(--brown);border-bottom:2.2px solid var(--brown);
+  transform:translateY(-70%) rotate(45deg);transition:transform .2s;
+}
+.faq-list details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq-list summary:hover{background:var(--paper)}
+.faq-list p{margin:0;padding:0 20px 18px;color:var(--muted);font-size:14.5px;line-height:1.65}
+@media(max-width:640px){
+  .faq-list summary{font-size:14.5px;padding:15px 44px 15px 16px}
+  .faq-list p{padding:0 16px 16px;font-size:13.5px}
+}
 
 /* ---------- contact ---------- */
 .contact{background:var(--sand)}

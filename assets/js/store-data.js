@@ -35,7 +35,7 @@ const STORE = {
   city:        "Sardulgarh",
   district:    "Mansa",
   state:       "Punjab",
-  postalCode:  "",                     // ⚠️ CONFIRM — add your PIN code
+  postalCode:  "151507",               // Sardulgarh S.O., Mansa — confirmed via India Post
   country:     "IN",
 
   /* Exact shop location. Right-click your shop in Google Maps → copy the
@@ -65,7 +65,7 @@ const STORE = {
     enabled:     true,
     free:        true,                 // ⚠️ CONFIRM — your banner says FREE HOME DELIVERY
     minOrder:    "",                   // e.g. "300" for ₹300 minimum, or "" for no minimum
-    areas:       "Sardulgarh and nearby areas",       // ⚠️ CONFIRM
+    areas:       "Sardulgarh and nearby villages",   // ⚠️ CONFIRM — add the village names you deliver to
     timing:      "Same day"            // ⚠️ CONFIRM
   },
 
