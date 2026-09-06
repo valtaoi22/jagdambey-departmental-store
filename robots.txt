@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://valtaoi22.github.io/jagdambey-departmental-store/sitemap.xml
+Sitemap: https://jagdambeystore.com/sitemap.xml
