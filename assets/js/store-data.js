@@ -46,7 +46,7 @@ const STORE = {
   mapsLink:    "",                     // optional: paste your Google Business "share" link here
 
   /* Your live website address, once you buy a domain. Used for SEO. */
-  siteUrl:     "https://jagdambeystore.com",         // ⚠️ CONFIRM
+  siteUrl:     "https://valtaoi22.github.io/jagdambey-departmental-store",         // ⚠️ CONFIRM
 
   /* ---------- 2. OPENING HOURS ----------
      24-hour clock. Use  closed: true  for a weekly off day.               */
