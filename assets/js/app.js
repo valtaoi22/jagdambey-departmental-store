@@ -460,56 +460,9 @@
     var yr = $("#year"); if (yr) yr.textContent = new Date().getFullYear();
   }
 
-  /* ------------------------------------------------------ LocalBusiness SEO */
-  function schema() {
-    var oh = [];
-    var MAP = { mon:"Monday",tue:"Tuesday",wed:"Wednesday",thu:"Thursday",fri:"Friday",sat:"Saturday",sun:"Sunday" };
-    Object.keys(MAP).forEach(function (k) {
-      var d = STORE.hours[k];
-      if (d && !d.closed) {
-        oh.push({ "@type":"OpeningHoursSpecification", dayOfWeek:MAP[k], opens:d.open, closes:d.close });
-      }
-    });
-    var addr = { "@type":"PostalAddress", streetAddress:STORE.addressLine,
-                 addressLocality:STORE.city, addressRegion:STORE.state, addressCountry:STORE.country };
-    if (STORE.postalCode) addr.postalCode = STORE.postalCode;
-
-    var data = {
-      "@context":"https://schema.org", "@type":"GroceryStore",
-      name:STORE.name,
-      alternateName:[STORE.alsoKnownAs, STORE.nameHi, STORE.namePa].filter(Boolean),
-      description:STORE.tagline,
-      knowsLanguage:["en","hi","pa"],
-      image:STORE.siteUrl + "/assets/brand/og-image.jpg",
-      logo:STORE.siteUrl + "/assets/brand/icon-512.png",
-      url:STORE.siteUrl,
-      telephone:["+91" + STORE.phone1, "+91" + STORE.phone2],
-      address:addr,
-      openingHoursSpecification:oh,
-      currenciesAccepted:"INR",
-      paymentAccepted:(STORE.payments || []).join(", "),
-      areaServed:STORE.delivery && STORE.delivery.areas,
-      makesOffer:CATALOGUE.map(function (c) {
-        return { "@type":"Offer", itemOffered:{ "@type":"Product", name:c.en, description:c.descEn } };
-      })
-    };
-    if (STORE.ownerName) {
-      data.founder = { "@type":"Person", name:STORE.ownerName };
-    }
-    if (STORE.lat && STORE.lng) {
-      data.geo = { "@type":"GeoCoordinates", latitude:STORE.lat, longitude:STORE.lng };
-      data.hasMap = "https://www.google.com/maps/search/?api=1&query=" + STORE.lat + "," + STORE.lng;
-    }
-    var s = document.createElement("script");
-    s.type = "application/ld+json";
-    s.textContent = JSON.stringify(data);
-    document.head.appendChild(s);
-  }
-
   /* ------------------------------------------------------------------ boot */
   loadCart();
   fill();
   applyLang();
-  schema();
   setInterval(renderStatus, 60000);
 })();

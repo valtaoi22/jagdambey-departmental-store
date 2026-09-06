@@ -32,6 +32,16 @@ What you can change there:
 
 Lines marked `// ⚠️ CONFIRM` contain a **guessed** value. Please check every one of them.
 
+### ⚠️ After changing hours, phone, address or payments — run this
+
+```
+node build-schema.js
+```
+
+Google reads your shop's address, phone and opening hours from a block of data
+inside `index.html`. That block is generated from `store-data.js`, so this one
+command keeps them matching. Then commit and push as usual.
+
 ---
 
 ## 2. Adding prices
@@ -121,6 +131,7 @@ Set `show: false` to hide the strip completely.
 | `DOMAIN-SETUP.md` | Buying a domain + the exact DNS records |
 | `go-live.py` | Switches the site to your domain in one command |
 | `set-domain.py` | Just changes the URL, without the CNAME file |
+| `build-schema.js` | Rebuilds the Google business data — run after editing hours/phone/address |
 | `GOOGLE-BUSINESS-PROFILE.md` | Copy-paste pack for your Google listing |
 
 ### Not used any more
