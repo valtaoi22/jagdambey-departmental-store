@@ -71,6 +71,12 @@ const data = {
   }))
 };
 if (STORE.ownerName) data.founder = { "@type": "Person", name: STORE.ownerName };
+
+// sameAs tells Google the website and the Business Profile are the same shop
+const same = [];
+if (STORE.mapsLink) same.push(STORE.mapsLink);
+if (STORE.googleKgmid) same.push("https://www.google.com/search?kgmid=" + STORE.googleKgmid);
+if (same.length) data.sameAs = same;
 if (STORE.lat && STORE.lng) {
   data.geo = { "@type": "GeoCoordinates", latitude: STORE.lat, longitude: STORE.lng };
   data.hasMap = "https://www.google.com/maps/search/?api=1&query=" + STORE.lat + "," + STORE.lng;

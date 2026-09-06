@@ -40,10 +40,12 @@ const STORE = {
 
   /* Exact shop location. Right-click your shop in Google Maps → copy the
      numbers that look like 29.6912, 75.2384 and paste them here.          */
-  lat:         "",                     // ⚠️ CONFIRM — leave "" until you have it
+  lat:         "",                     // ⚠️ STILL NEEDED — right-click the shop in Google Maps, copy the first number
+                                       //    (Sardulgarh town centre is about 29.6934, 75.2375 — yours will be close)
   lng:         "",                     // ⚠️ CONFIRM
-  mapsQuery:   "Geeta Bhawan, Sardulgarh, Punjab",   // ⚠️ CONFIRM — replace with your shop name once listed
-  mapsLink:    "",                     // optional: paste your Google Business "share" link here
+  mapsQuery:   "Jagdambey Departmental Store, Sardulgarh, Punjab",
+  mapsLink:    "https://share.google/uCz81jpyHikhyfAZM",   // the shop's Google listing
+  googleKgmid: "/g/11zxg77rp1",        // Google's own id for this business — links site to listing
 
   /* Your live website address, once you buy a domain. Used for SEO. */
   siteUrl:     "https://jagdambeystore.com",         // ⚠️ CONFIRM
