@@ -62,7 +62,3 @@
 
 /festival         /#festival       301
 /festivals        /#festival       301
-
-# --- catch-all: MUST stay last, first match wins ----------------------------
-# Every rule above is more specific and is matched before this one.
-/*                /                301
