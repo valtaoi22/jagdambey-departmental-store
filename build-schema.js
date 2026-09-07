@@ -65,10 +65,14 @@ const data = {
   currenciesAccepted: "INR",
   paymentAccepted: (STORE.payments || []).join(", "),
   areaServed: STORE.delivery && STORE.delivery.areas,
-  makesOffer: CATALOGUE.map(c => ({
-    "@type": "Offer",
-    itemOffered: { "@type": "Product", name: c.en, description: c.descEn }
-  }))
+  // Deliberately NOT Product nodes. Google validates every Product it finds on
+  // the page against its product-snippet rules, which require "offers", "review"
+  // or "aggregateRating" — and a counter-priced kirana shop has none of those.
+  // makesOffer earns a local business no rich result in the first place, so the
+  // merchandise range goes in as plain topics: same keyword signal to Google,
+  // nothing left to fail validation. The categories and their descriptions are
+  // already in the visible HTML, which is what Google reads for relevance.
+  knowsAbout: CATALOGUE.map(c => c.en)
 };
 if (STORE.ownerName) data.founder = { "@type": "Person", name: STORE.ownerName };
 
@@ -125,6 +129,6 @@ if (!STORE.postalCode) warn.push("postalCode");
 if (!STORE.lat || !STORE.lng) warn.push("lat/lng (exact map pin)");
 
 console.log(`Business data written into index.html`);
-console.log(`  ${hours.length} open days, ${data.makesOffer.length} product categories, ${faqs.length} FAQ entries`);
+console.log(`  ${hours.length} open days, ${data.knowsAbout.length} product categories, ${faqs.length} FAQ entries`);
 console.log(`  ${JSON.stringify(data).length} bytes of structured data`);
 if (warn.length) console.log(`  still missing (Google would use these): ${warn.join(", ")}`);
