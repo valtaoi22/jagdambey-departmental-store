@@ -50,3 +50,10 @@
 
 /festival         /#festival       301
 /festivals        /#festival       301
+
+# --- probe, remove once resolved ---------------------------------------------
+# Testing whether this host honours a 404 status in _redirects. If /zz-probe-404
+# comes back as 404 WITH the page body, a catch-all can serve 404.html at the
+# correct status and the host's error-document setting stops mattering.
+# Deliberately a throwaway path so nothing a visitor touches can break.
+/zz-probe-404     /404.html        404
