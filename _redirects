@@ -57,3 +57,7 @@
 # correct status and the host's error-document setting stops mattering.
 # Deliberately a throwaway path so nothing a visitor touches can break.
 /zz-probe-404     /404.html        404
+# Companion probe. A 301 is known to work here, so once this one responds
+# the build has landed — which makes the 404 probe above readable: still
+# empty means the status was rejected, not that the deploy was slow.
+/zz-probe-301     /                301
