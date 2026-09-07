@@ -13,6 +13,21 @@
 #   site.webmanifest, assets/**, and robots.txt + sitemap.xml, which Google
 #   reads directly.
 
+# THE IMPORTANT ONE. The build server clones the repo, so .git ends up sitting
+# in the directory that gets uploaded. Serving it publishes the whole repository
+# — every commit, the full history — because .git/index and the pack files are
+# enough to reconstruct it with off-the-shelf tools. Verified live before this
+# was added: /.git/config, /.git/HEAD, /.git/index and /.git/logs/HEAD all
+# returned 200 on jagdambeystore.com.
+#
+# This stays excluded no matter what else changes, and it is NOT made safe by
+# making the GitHub repo private — the website would still serve it.
+.git/
+
+# Never publish credentials, if one is ever added locally by mistake.
+.env
+*.token
+
 # Owner documentation. Written for whoever maintains the shop's site, and of no
 # use to a visitor who lands on it.
 *.md
