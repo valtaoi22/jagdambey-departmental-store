@@ -1,20 +1,32 @@
-# Cloudflare Pages redirects.
+# Cloudflare Workers redirects. This site deploys with `npx wrangler deploy`,
+# so wrangler parses this file at build time.
 #
-# These are the paths a real person might reasonably type or remember, sent to
-# the matching section of the one-page site. Each one points at equivalent
-# content, which is what makes it a legitimate redirect.
+# STATUS CODES: wrangler validates every line and rejects anything that is not a
+# real redirect status. `/* /404.html 404` is not valid here and fails the whole
+# build, taking the deploy down with it. Only 301/302/303/307/308 belong below.
 #
-# DO NOT add a catch-all like  /*  /  301  or  /*  /index.html  200
-# ------------------------------------------------------------------
-# It looks helpful, but it tells Google that every invented address on the
-# domain is a real page holding the home page's content. Google calls that a
-# soft 404: it would index /af, /xyz and every other typo as separate pages of
-# duplicate content, flag them in Search Console, and split the ranking signals
-# for a brand-new domain across infinite junk URLs.
+# There are two kinds of rule.
 #
-# Anything not listed below falls through to 404.html, which Cloudflare Pages
-# serves with a real 404 status. That is what tells Google to forget the URL,
-# and the visitor still gets a branded page with a way home.
+# 1. Named paths, sent to the matching section of the one-page site. These point
+#    at equivalent content, which is what makes them ordinary redirects.
+#
+# 2. A catch-all at the very bottom, sending every unrecognised path to the home
+#    page. This is the shop owner's decision, so that nobody who mistypes the
+#    address reaches a dead end.
+#
+# ON THE CATCH-ALL, for whoever edits this next: Google treats a blanket
+# redirect of missing pages to the home page as a "soft 404". What that costs in
+# practice is that those URLs go unindexed and appear in Search Console under
+# "Page with redirect" — it does NOT put duplicate copies of the home page into
+# the index. Serving the home page's content at those paths instead
+# (`/* /index.html 200`) is the version that WOULD do that, and it is the one
+# genuinely worth avoiding. If this ever changes, keep it a 301; never make it a
+# 200 rewrite.
+#
+# 404.html is still in the repo and reachable at /404. Nothing routes to it now,
+# because this Worker returns a bare 404 for unmatched paths rather than serving
+# a custom error document, and the catch-all below fires first anyway. It is kept
+# for a host that does support one.
 
 /home             /                301
 /index            /                301
@@ -51,13 +63,6 @@
 /festival         /#festival       301
 /festivals        /#festival       301
 
-# --- probe, remove once resolved ---------------------------------------------
-# Testing whether this host honours a 404 status in _redirects. If /zz-probe-404
-# comes back as 404 WITH the page body, a catch-all can serve 404.html at the
-# correct status and the host's error-document setting stops mattering.
-# Deliberately a throwaway path so nothing a visitor touches can break.
-/zz-probe-404     /404.html        404
-# Companion probe. A 301 is known to work here, so once this one responds
-# the build has landed — which makes the 404 probe above readable: still
-# empty means the status was rejected, not that the deploy was slow.
-/zz-probe-301     /                301
+# --- catch-all: MUST stay last, first match wins ----------------------------
+# Every rule above is more specific and is matched before this one.
+/*                /                301
