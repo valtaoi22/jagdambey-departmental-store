@@ -12,3 +12,6 @@ desktop.ini
 # Never commit credentials
 .env
 *.token
+
+# Wrangler local state (created inside the project by wrangler dev)
+.wrangler/

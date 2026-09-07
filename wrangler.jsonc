@@ -1,0 +1,37 @@
+{
+  // Worker configuration for jagdambeystore.com.
+  //
+  // Before this file existed, Cloudflare Workers Builds supplied the config from
+  // its own build environment and `npx wrangler deploy` worked with nothing in
+  // the repo. This file now overrides that, so `name` MUST stay exactly as the
+  // Worker is named in the dashboard — a different name deploys to a different
+  // Worker and leaves the live site serving an old version.
+  "name": "jagdambey-departmental-store",
+
+  "compatibility_date": "2026-09-03",
+
+  // No `routes` key on purpose. The jagdambeystore.com custom domain is attached
+  // at the Worker level in the dashboard, and leaving routes undeclared means
+  // wrangler has nothing to manage and will not detach it. Do not add routes
+  // here without checking the Domains tab first.
+
+  "assets": {
+    // The whole repo root is the site. .assetsignore controls what is left out —
+    // notably .git, which was being served publicly before it was added.
+    "directory": "./",
+
+    // "single-page-application" = if there is no real file at the requested path,
+    // serve index.html. Cloudflare checks for the file FIRST, which is why this
+    // does not shadow the stylesheet the way a `/*` rule in _redirects did.
+    //
+    // Order of precedence: _redirects rules, then real files, then this fallback.
+    // So /contact still 301s to /#contact, /assets/css/style.css still serves the
+    // CSS, and /af gets the home page.
+    //
+    // The trade-off, accepted knowingly by the shop owner: unmatched paths return
+    // 200 with home page content, so Google may index typo URLs as duplicates of
+    // /. Switch this to "404-page" to serve 404.html at a real 404 status instead,
+    // which is the SEO-correct behaviour and is why 404.html is kept in the repo.
+    "not_found_handling": "single-page-application"
+  }
+}

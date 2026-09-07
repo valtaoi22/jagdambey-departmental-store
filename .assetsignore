@@ -24,6 +24,16 @@
 # making the GitHub repo private — the website would still serve it.
 .git/
 
+# The Worker config itself. Serving it publishes the Worker's name and setup;
+# caught by a local test that found /wrangler.jsonc returning 1861 bytes.
+wrangler.jsonc
+wrangler.toml
+wrangler.json
+
+# Wrangler's local state directory. It lands INSIDE the assets directory, so
+# without this a build that creates it would publish it.
+.wrangler/
+
 # Never publish credentials, if one is ever added locally by mistake.
 .env
 *.token
