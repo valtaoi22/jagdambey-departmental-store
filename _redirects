@@ -1,0 +1,52 @@
+# Cloudflare Pages redirects.
+#
+# These are the paths a real person might reasonably type or remember, sent to
+# the matching section of the one-page site. Each one points at equivalent
+# content, which is what makes it a legitimate redirect.
+#
+# DO NOT add a catch-all like  /*  /  301  or  /*  /index.html  200
+# ------------------------------------------------------------------
+# It looks helpful, but it tells Google that every invented address on the
+# domain is a real page holding the home page's content. Google calls that a
+# soft 404: it would index /af, /xyz and every other typo as separate pages of
+# duplicate content, flag them in Search Console, and split the ranking signals
+# for a brand-new domain across infinite junk URLs.
+#
+# Anything not listed below falls through to 404.html, which Cloudflare Pages
+# serves with a real 404 status. That is what tells Google to forget the URL,
+# and the visitor still gets a branded page with a way home.
+
+/home             /                301
+/index            /                301
+
+/contact          /#contact        301
+/contact-us       /#contact        301
+/hours            /#contact        301
+/timing           /#contact        301
+
+/about            /#about          301
+/about-us         /#about          301
+
+/delivery         /#delivery       301
+/home-delivery    /#delivery       301
+
+/categories       /#categories     301
+/products         /#categories     301
+/catalogue        /#categories     301
+/catalog          /#categories     301
+/items            /#categories     301
+
+/pricelist        /#pricelist      301
+/price-list       /#pricelist      301
+/price            /#pricelist      301
+/prices           /#pricelist      301
+/rate             /#pricelist      301
+
+/gallery          /#gallery        301
+/photos           /#gallery        301
+
+/faq              /#faq            301
+/faqs             /#faq            301
+
+/festival         /#festival       301
+/festivals        /#festival       301

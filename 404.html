@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Page not found — Jagdambey Departmental Store</title>
+
+<!-- A 404 must never be indexed. The 404 status already tells Google that,
+     this is just belt and braces. -->
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#163a2a">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/brand/icon-48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<!-- Styles are inline on purpose. This is the page that shows when something
+     has already gone wrong, so it should not depend on another file loading. -->
+<style>
+:root{
+  --green:#163a2a; --green-3:#0f2a1e;
+  --gold:#c9a14a;  --gold-2:#ead18d;
+  --cream:#fff9ef; --paper:#fffdf8;
+  --ink:#1f2a24;   --muted:#666f68;
+  --line:#e9dfcb;  --wa:#188c52;
+  --serif:"Playfair Display",Georgia,serif;
+  --sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;background:var(--cream);color:var(--ink);
+  font-family:var(--sans);line-height:1.62;font-size:16px;
+  display:grid;place-items:center;padding:28px 20px;
+}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+.wrap{width:min(620px,100%);text-align:center}
+
+.mark{
+  width:84px;height:84px;margin:0 auto 22px;border-radius:50%;
+  box-shadow:0 14px 34px rgba(68,47,21,.14);
+}
+
+.code{
+  font-family:var(--serif);font-size:clamp(56px,15vw,86px);line-height:1;
+  color:var(--green);margin:0 0 6px;
+}
+.rule{width:64px;height:3px;background:var(--gold);border-radius:2px;margin:0 auto 22px}
+
+h1{font-family:var(--serif);font-size:clamp(21px,5vw,27px);color:var(--green);margin:0 0 14px}
+
+/* All three languages are shown at once. The main site has a JS language
+   switcher, but this page must work with nothing but HTML. */
+.langs{margin:0 0 26px;color:var(--muted);font-size:15px}
+.langs span{display:block}
+.langs span+span{margin-top:3px}
+
+.btns{display:flex;flex-wrap:wrap;gap:11px;justify-content:center;margin-bottom:30px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 22px;border-radius:999px;font-weight:700;font-size:15px;
+  border:2px solid var(--green);transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(68,47,21,.16)}
+.btn-primary{background:var(--green);color:var(--gold-2)}
+.btn-wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn-ghost{background:var(--paper);color:var(--green)}
+
+.jump{border-top:1px solid var(--line);padding-top:22px}
+.jump p{margin:0 0 12px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.jump ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.jump a{
+  display:block;padding:8px 15px;border-radius:999px;font-size:14px;
+  background:var(--paper);border:1px solid var(--line);color:var(--green);font-weight:500;
+}
+.jump a:hover{border-color:var(--gold);background:#fff}
+
+.addr{margin:26px 0 0;font-size:14px;color:var(--muted)}
+
+@media (prefers-color-scheme:dark){
+  /* The main site is light-only, so this stays deliberately close to it —
+     just enough lift to avoid glare in a dark browser. */
+  body{background:#12100c;color:#f2ece0}
+  .btn-ghost,.jump a{background:#1d1a15;border-color:#2f2a22;color:var(--gold-2)}
+  .code,h1{color:var(--gold-2)}
+  .jump{border-top-color:#2f2a22}
+}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <img class="mark" src="/assets/brand/icon-192.png" width="192" height="192"
+       alt="Jagdambey Departmental Store">
+
+  <p class="code">404</p>
+  <div class="rule"></div>
+
+  <h1>This page does not exist — but the shop does</h1>
+
+  <div class="langs">
+    <span>The address you typed is not part of our website.</span>
+    <span>यह पेज मौजूद नहीं है। नीचे से मुख्य पेज पर जाएँ।</span>
+    <span>ਇਹ ਪੇਜ ਮੌਜੂਦ ਨਹੀਂ ਹੈ। ਹੇਠਾਂ ਤੋਂ ਮੁੱਖ ਪੇਜ 'ਤੇ ਜਾਓ।</span>
+  </div>
+
+  <div class="btns">
+    <a class="btn btn-primary" href="/">Go to the shop&rsquo;s home page</a>
+    <a class="btn btn-wa" href="https://wa.me/919464594106">WhatsApp</a>
+    <a class="btn btn-ghost" href="tel:+919464594106">Call 94645 94106</a>
+  </div>
+
+  <nav class="jump">
+    <p>Or jump straight to</p>
+    <ul>
+      <li><a href="/#categories">What we sell</a></li>
+      <li><a href="/#pricelist">Price list</a></li>
+      <li><a href="/#delivery">Home delivery</a></li>
+      <li><a href="/#gallery">Photos</a></li>
+      <li><a href="/#faq">Questions</a></li>
+      <li><a href="/#contact">Contact &amp; hours</a></li>
+    </ul>
+  </nav>
+
+  <p class="addr">Near Geeta Bhawan, Sardulgarh, Mansa, Punjab 151507</p>
+</main>
+
+</body>
+</html>
