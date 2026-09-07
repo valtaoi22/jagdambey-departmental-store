@@ -1,0 +1,35 @@
+# Files that live in the repo but must NOT be served on the website.
+#
+# Syntax is the same as .gitignore. Wrangler applies this when it uploads, so
+# anything listed here never reaches the edge — it is not hidden, it is absent.
+# Nothing here is deleted from the repo; you keep every file locally and on
+# GitHub exactly as before.
+#
+# NOTE: trailing comments are not supported. `foo.png  # unused` would be read
+# as a pattern containing the words, so keep comments on their own lines.
+#
+# Do NOT add these, the live site needs them:
+#   index.html, 404.html, favicon.ico, storefront.jpg (used 4x),
+#   site.webmanifest, assets/**, and robots.txt + sitemap.xml, which Google
+#   reads directly.
+
+# Owner documentation. Written for whoever maintains the shop's site, and of no
+# use to a visitor who lands on it.
+*.md
+README.txt
+
+# Build and setup scripts. These describe how the site is put together and how
+# the domain is switched, which is not something to hand to the public.
+build-schema.js
+go-live.py
+set-domain.py
+
+# Unused leftovers.
+# favicon.png is superseded by favicon.ico and nothing links to it.
+# jagdambey-banner.png is 1.26 MB and referenced nowhere; the banner actually
+# in use is assets/brand/banner.png.
+favicon.png
+jagdambey-banner.png
+
+# Repo housekeeping, irrelevant to a browser.
+.gitignore
